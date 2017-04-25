@@ -43,6 +43,43 @@ public class StockQuoteAnalyzerTest {
         analyzer = new StockQuoteAnalyzer("ZZZZZZZZZ", generatorMock, audioMock);
     }
 
+    @Test
+    public void playAppropriateAudioShouldPlayErrorMusicWhenNoValidQuoteIsReceived() throws Exception {
+        analyzer = new StockQuoteAnalyzer("GOOG", generatorMock, audioMock);
+
+        analyzer.playAppropriateAudio();
+
+        verify(audioMock, times(1)).playErrorMusic();
+    }
+
+    @Test
+    public void playAppropriateAudioShouldPlayHappyMusicWhenPercentChangeSinceCloseIsGreaterThanZero() throws Exception {
+        analyzer = new StockQuoteAnalyzer("GOOG", generatorMock, audioMock);
+
+        StockQuote quote = new StockQuote("GOOG", 10, 2, 10);
+
+        when(generatorMock.getCurrentQuote()).thenReturn(quote);
+
+        analyzer.refresh();
+        analyzer.playAppropriateAudio();
+
+        verify(audioMock, times(1)).playHappyMusic();
+    }
+
+    @Test
+    public void playAppropriateAudioShouldPlaySadMusicWhenPercentChangeSinceCloseIsLessThanOrEqualToNegativeOne() throws Exception {
+        analyzer = new StockQuoteAnalyzer("GOOG", generatorMock, audioMock);
+
+        StockQuote quote = new StockQuote("GOOG", 10, 2, -10);
+
+        when(generatorMock.getCurrentQuote()).thenReturn(quote);
+
+        analyzer.refresh();
+        analyzer.playAppropriateAudio();
+
+        verify(audioMock, times(1)).playSadMusic();
+    }
+
     @Test(expectedExceptions = NullPointerException.class)
     public void constructorShouldThrowExceptionWhenGeneratorMockIsNull() throws Exception{
         analyzer = new StockQuoteAnalyzer("GOOG", null, audioMock);
