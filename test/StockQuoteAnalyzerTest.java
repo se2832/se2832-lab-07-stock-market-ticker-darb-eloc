@@ -1,3 +1,4 @@
+import exceptions.InvalidAnalysisState;
 import exceptions.InvalidStockSymbolException;
 import exceptions.StockTickerConnectionError;
 import org.testng.annotations.AfterMethod;
@@ -41,4 +42,33 @@ public class StockQuoteAnalyzerTest {
     public void constructorShouldThrowExceptionWhenSymbolIsInvalid() throws Exception {
         analyzer = new StockQuoteAnalyzer("ZZZZZZZZZ", generatorMock, audioMock);
     }
+
+    @Test(expectedExceptions = NullPointerException.class)
+    public void constructorShouldThrowExceptionWhenGeneratorMockIsNull() throws Exception{
+        analyzer = new StockQuoteAnalyzer("GOOG", null, audioMock);
+    }
+
+    @Test(expectedExceptions = NullPointerException.class)
+    public void constructorShouldThrowExceptionWhenAudioMockIsNull() throws Exception{
+        analyzer = new StockQuoteAnalyzer("GOOG", generatorMock, null);
+    }
+
+    @Test
+    public void getSymbolShouldReturnGOOGWhenGivenGOOGInConstructor() throws Exception{
+        analyzer = new StockQuoteAnalyzer("GOOG", generatorMock, audioMock);
+        assertEquals("GOOG", analyzer.getSymbol());
+    }
+
+    @Test //expectedExceptions = StockTickerConnectionError.class)
+    public void refreshShouldNotThrowExceptionWhenCalled() throws Exception{
+        analyzer = new StockQuoteAnalyzer("GOOG", generatorMock, audioMock);
+        analyzer.refresh();
+    }
+
+    @Test (expectedExceptions = InvalidAnalysisState.class)
+    public void getPreviousCloseShouldThrowInvalidAnalysisStateWhenCurrentQuoteIsNull() throws Exception{
+        analyzer = new StockQuoteAnalyzer("GOOG", generatorMock, audioMock);
+        analyzer.getPreviousClose();
+    }
+
 }
