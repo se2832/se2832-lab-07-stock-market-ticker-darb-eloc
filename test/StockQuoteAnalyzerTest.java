@@ -59,16 +59,41 @@ public class StockQuoteAnalyzerTest {
         assertEquals("GOOG", analyzer.getSymbol());
     }
 
-    @Test //expectedExceptions = StockTickerConnectionError.class)
-    public void refreshShouldNotThrowExceptionWhenCalled() throws Exception{
-        analyzer = new StockQuoteAnalyzer("GOOG", generatorMock, audioMock);
-        analyzer.refresh();
-    }
+//    @Test //expectedExceptions = StockTickerConnectionError.class)
+//    public void refreshShouldNotThrowExceptionWhenCalled() throws Exception{
+//        analyzer = new StockQuoteAnalyzer("GOOG", generatorMock, audioMock);
+//        analyzer.refresh();
+//    }
 
     @Test (expectedExceptions = InvalidAnalysisState.class)
     public void getPreviousCloseShouldThrowInvalidAnalysisStateWhenCurrentQuoteIsNull() throws Exception{
         analyzer = new StockQuoteAnalyzer("GOOG", generatorMock, audioMock);
         analyzer.getPreviousClose();
     }
+
+    @Test (expectedExceptions = InvalidAnalysisState.class)
+    public void getCurrentPriceShouldThrowExceptionWhenCurrentQuoteIsNull() throws Exception{
+        analyzer = new StockQuoteAnalyzer("GOOG", generatorMock, audioMock);
+        analyzer.getCurrentPrice();
+    }
+
+    @Test (expectedExceptions = InvalidAnalysisState.class)
+    public void getChangeSinceCloseShouldThrowExceptionWhenCurrentQuoteIsNull() throws Exception{
+        analyzer = new StockQuoteAnalyzer("GOOG", generatorMock, audioMock);
+        analyzer.getChangeSinceClose();
+    }
+
+    @Test (expectedExceptions = InvalidAnalysisState.class)
+    public void getPercentChangeSinceCloseShouldThrowExceptionWhenCurrentQuoteIsNull() throws Exception{
+        analyzer = new StockQuoteAnalyzer("GOOG", generatorMock, audioMock);
+        analyzer.getPercentChangeSinceClose();
+    }
+
+    @Test (expectedExceptions = InvalidAnalysisState.class)
+    public void getChangeSinceLastCheckShouldThrowExceptionWhenCurrentQuoteIsNull() throws Exception{
+        analyzer = new StockQuoteAnalyzer("GOOG", generatorMock, audioMock);
+        analyzer.getChangeSinceLastCheck();
+    }
+
 
 }
