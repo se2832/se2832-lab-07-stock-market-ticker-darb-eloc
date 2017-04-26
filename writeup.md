@@ -1,11 +1,15 @@
 Line \# | Fault Description | Fix Description
 --- | --- | ---
-52 | No else condition to use maxQueueSize | Added else condition to set capacity = maxQueueSize
-68 | Method doesn't set the return value to depict sucess or not | set retVal = offer(arg0)
-81 | Method element should return head, but it returns tail instead | Made it return the head
-102 | Method peek should return head, but it returns tail instead | Made it return the head
-112 | Method poll should return head, but it returns tail instead | Made it return head
-147 | Tail starts at one, but should start at zero | Made it start at zero 
-148 | Head starts at one, but should start at zero | Made it start at zero
-172 | Method should throw new UnsupportedOperationException, but instead returns null | Made it throw the exception
-209 | Integer myOffset uses tail, but it should use head | Changed it to use head
+151 | getPreviousClose throws exception if currentQuote is equal to null | Changed != to ==
+220 | getChangeSinceLastCheck always returns zero | Change the second currentQuote to previousQuote
+219 | getChangeSinceLastCheck throws NullPointerExceptions instead of InvalidAnalysisState.  Method needs to either throw NullPointerExceptions or check for null objects and throw InvalidAnalysisState | Add in if statement to check for null objects, and throw InvalidAnalysisState
+204 | maybe equation is incorrect | ?
+187 | maybe equation is incorrect | ?
+185 | getChangeSinceClose throws NullPointerException instead of InvalidAnalysisState | throw new InvalidAnalysisState instead of a new NullPointerException 
+
+We have added a recommendation table to list code fixes that don't cause faults
+
+Line \# | Recommendation Description | Fix Description
+--- | --- | ---
+65 | Comments say class throws StockTickerConnectionError, but method doesn't throw this exception | Change the comments
+219 | getChangeSinceLastCheck's name is confusing since StockQuote has a getChange method but is not used in getChangeSinceLastCheck | Correct method name to getChangeInPriceSinceLastCheck

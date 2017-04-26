@@ -132,5 +132,4 @@ public class StockQuoteAnalyzerTest {
         analyzer.getChangeSinceLastCheck();
     }
 
-
 }
