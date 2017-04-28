@@ -132,4 +132,11 @@ public class StockQuoteAnalyzerTest {
         analyzer.getChangeSinceLastCheck();
     }
 
+    @Test
+    public void getPercentChangeSinceCloseShouldRetunr1000WhenCloseIsOneAndChangeIsTen() throws Exception{
+        analyzer = new StockQuoteAnalyzer("GOOG", generatorMock, audioMock);
+        when(generatorMock.getCurrentQuote()).thenReturn(new StockQuote("GOOG", 1, 1, 10));
+        analyzer.refresh();
+        assertEquals(1000, (int)analyzer.getPercentChangeSinceClose());
+    }
 }
