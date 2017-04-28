@@ -96,12 +96,6 @@ public class StockQuoteAnalyzerTest {
         assertEquals("GOOG", analyzer.getSymbol());
     }
 
-//    @Test //expectedExceptions = StockTickerConnectionError.class)
-//    public void refreshShouldNotThrowExceptionWhenCalled() throws Exception{
-//        analyzer = new StockQuoteAnalyzer("GOOG", generatorMock, audioMock);
-//        analyzer.refresh();
-//    }
-
     @Test (expectedExceptions = InvalidAnalysisState.class)
     public void getPreviousCloseShouldThrowInvalidAnalysisStateWhenCurrentQuoteIsNull() throws Exception{
         analyzer = new StockQuoteAnalyzer("GOOG", generatorMock, audioMock);
@@ -146,5 +140,29 @@ public class StockQuoteAnalyzerTest {
         when(generatorMock.getCurrentQuote()).thenReturn(new StockQuote("GOOG", 1, 1, 10));
         analyzer.refresh();
         assertEquals(1000, (int)analyzer.getPercentChangeSinceClose());
+    }
+
+    @Test
+    public void getPreviousCloseShouldReturnOneWhenGivenAQuoteWithACloseOfOne()throws Exception{
+        analyzer = new StockQuoteAnalyzer("GOOG", generatorMock, audioMock);
+        when(generatorMock.getCurrentQuote()).thenReturn(new StockQuote("GOOG", 1, 1, 1));
+        analyzer.refresh();
+        assertEquals(1, (int)analyzer.getPreviousClose());
+    }
+
+    @Test
+    public void getCurrentPriceShouldReturnOneWhenGivenAQuoteWithATradeOfOne()throws Exception{
+        analyzer = new StockQuoteAnalyzer("GOOG", generatorMock, audioMock);
+        when(generatorMock.getCurrentQuote()).thenReturn(new StockQuote("GOOG", 1, 1, 1));
+        analyzer.refresh();
+        assertEquals(1, (int)analyzer.getCurrentPrice());
+    }
+
+    @Test
+    public void getChangeSinceCloseShouldReturnOneWhenGivenAQuoteWithAChangeOfOne()throws Exception{
+        analyzer = new StockQuoteAnalyzer("GOOG", generatorMock, audioMock);
+        when(generatorMock.getCurrentQuote()).thenReturn(new StockQuote("GOOG", 1, 1, 1));
+        analyzer.refresh();
+        assertEquals(1, (int)analyzer.getChangeSinceClose());
     }
 }
