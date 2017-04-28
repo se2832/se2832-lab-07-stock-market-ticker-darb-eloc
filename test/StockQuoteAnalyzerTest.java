@@ -132,6 +132,14 @@ public class StockQuoteAnalyzerTest {
         analyzer.getChangeSinceLastCheck();
     }
 
+    @Test (expectedExceptions = InvalidAnalysisState.class)
+    public void getChangeSinceLastCheckShouldThrowExceptionWhenPreviousQuoteIsNull() throws Exception{
+        analyzer = new StockQuoteAnalyzer("GOOG", generatorMock, audioMock);
+        when(generatorMock.getCurrentQuote()).thenReturn(new StockQuote("GOOG", 1, 1 ,1));
+        analyzer.refresh();
+        analyzer.getChangeSinceLastCheck();
+    }
+
     @Test
     public void getPercentChangeSinceCloseShouldRetunr1000WhenCloseIsOneAndChangeIsTen() throws Exception{
         analyzer = new StockQuoteAnalyzer("GOOG", generatorMock, audioMock);
