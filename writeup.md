@@ -1,5 +1,6 @@
 Line \# | Fault Description | Fix Description
 --- | --- | ---
+83| constructor never checks if Audio Player is null | Added if statement checking in Audio Player is null
 151 | getPreviousClose throws exception if currentQuote is equal to null | Changed != to ==
 185 | getChangeSinceClose throws NullPointerException instead of InvalidAnalysisState | throw new InvalidAnalysisState instead of a new NullPointerException 
 187 | getChangeSinceClose returns the wrong value | remove the subtraction of getClose()
